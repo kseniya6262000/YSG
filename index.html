@@ -246,7 +246,7 @@
               src="i-5.webp" 
               alt="Вязальный цех YSG"
               class="w-full h-full object-cover transition-all duration-700 ease-out opacity-85"
-              onerror="this.src='https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?auto=format&fit=crop&w=800&q=85'"
+              onerror="handleImageLoadError(this, 'https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?auto=format&fit=crop&w=800&q=85')"
             />
             
             <!-- Floating Overlay with description -->
@@ -349,7 +349,7 @@
                 src="IMG_7213.JPG" 
                 alt="Эстетика трикотажа YSG"
                 class="w-full h-full object-cover transform scale-100 group-hover:scale-[1.02] transition-all duration-[1000ms] opacity-90"
-                onerror="this.src='https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&w=1200&q=85'"
+                onerror="handleImageLoadError(this, 'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&w=1200&q=85')"
               />
               <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/30 to-transparent" />
             </div>
@@ -780,6 +780,76 @@
 
   <!-- CORE INTERACTIVE JAVASCRIPT LOGIC -->
   <script>
+    // Robust image handler for folder structures and filename case-sensitivity on hosting environments like GitHub Pages
+    function handleImageLoadError(img, fallbackUrl) {
+      if (!img.dataset.variations) {
+        const src = img.getAttribute('src') || '';
+        if (!src || src.startsWith('http://') || src.startsWith('https://') || src.startsWith('data:')) {
+          img.src = fallbackUrl;
+          img.onerror = null;
+          return;
+        }
+
+        const variations = [];
+        let normalized = src;
+        while (normalized.startsWith('/') || normalized.startsWith('.')) {
+          normalized = normalized.replace(/^[\/\.]+/, '');
+        }
+
+        const lastSlash = normalized.lastIndexOf('/');
+        const filename = lastSlash !== -1 ? normalized.substring(lastSlash + 1) : normalized;
+        const dir = lastSlash !== -1 ? normalized.substring(0, lastSlash) : '';
+
+        const extIdx = filename.lastIndexOf('.');
+        const base = extIdx !== -1 ? filename.substring(0, extIdx) : filename;
+        const ext = extIdx !== -1 ? filename.substring(extIdx) : '';
+        const exts = [ext.toLowerCase(), ext.toUpperCase()];
+
+        if (dir) {
+          exts.forEach(e => {
+            variations.push(`${dir}/${base}${e}`);
+            variations.push(`./${dir}/${base}${e}`);
+            variations.push(`/${dir}/${base}${e}`);
+          });
+        }
+
+        exts.forEach(e => {
+          variations.push(`${base}${e}`);
+          variations.push(`./${base}${e}`);
+          variations.push(`/${base}${e}`);
+        });
+
+        const origExtIdx = src.lastIndexOf('.');
+        if (origExtIdx !== -1) {
+          const origBase = src.substring(0, origExtIdx);
+          variations.push(`${origBase}${ext.toLowerCase()}`);
+          variations.push(`${origBase}${ext.toUpperCase()}`);
+        }
+
+        const uniqueVariations = [];
+        variations.forEach(v => {
+          if (v !== src && !uniqueVariations.includes(v)) {
+            uniqueVariations.push(v);
+          }
+        });
+
+        uniqueVariations.push(fallbackUrl);
+        img.dataset.variations = JSON.stringify(uniqueVariations);
+        img.dataset.variationIdx = 0;
+      }
+
+      const vars = JSON.parse(img.dataset.variations);
+      const idx = parseInt(img.dataset.variationIdx, 10);
+
+      if (idx < vars.length) {
+        img.dataset.variationIdx = idx + 1;
+        img.src = vars[idx];
+      } else {
+        img.src = fallbackUrl;
+        img.onerror = null;
+      }
+    }
+
     // --- KNITTING WORKSHOP IMAGES & CONTROLS ---
     const workshopImages = [
       {
@@ -815,7 +885,7 @@
       imgEl.src = active.name;
       // Setup fallbacks
       imgEl.onerror = function() {
-        this.src = active.fallback;
+        handleImageLoadError(this, active.fallback);
       };
 
       fileEl.innerText = active.name;
@@ -958,7 +1028,7 @@
                 src="${firstImg}" 
                 alt="${p.name}" 
                 class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                onerror="this.src='${p.fallback}'"
+                onerror="handleImageLoadError(this, '${p.fallback}')"
               />
 
               <!-- Sku and Category Badges -->
@@ -1066,7 +1136,7 @@
           <button onclick="setModalActiveImage(${idx})" class="w-12 h-15 rounded-lg overflow-hidden border-2 transition-all bg-white ${
             idx === activeModalImgIdx ? 'border-[#0096E6] scale-105 shadow-md' : 'border-slate-200 hover:border-slate-300'
           }" id="thumb-${idx}">
-            <img src="images/${img}" class="w-full h-full object-cover" onerror="this.src='${product.fallback}'" />
+            <img src="${img}" class="w-full h-full object-cover" onerror="handleImageLoadError(this, '${product.fallback}')" />
           </button>
         `;
       });
@@ -1087,7 +1157,7 @@
       const imgEl = document.getElementById('modal-active-img');
       imgEl.src = activeSelectedProduct.images[activeModalImgIdx];
       imgEl.onerror = function() {
-        this.src = activeSelectedProduct.fallback;
+        handleImageLoadError(this, activeSelectedProduct.fallback);
       };
 
       // highlight thumb border
@@ -1178,7 +1248,7 @@
       const slide = aestheticImages[activeAestheticIdx];
       imgEl.src = slide.name;
       imgEl.onerror = function() {
-        this.src = slide.fallback;
+        handleImageLoadError(this, slide.fallback);
       };
 
       filenameEl.innerText = slide.name;
@@ -1259,7 +1329,7 @@
 
       lImg.src = slide.name;
       lImg.onerror = function() {
-        this.src = slide.fallback;
+        handleImageLoadError(this, slide.fallback);
       };
 
       lTitle.innerText = slide.title;
