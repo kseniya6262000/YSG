@@ -1066,7 +1066,7 @@
           <button onclick="setModalActiveImage(${idx})" class="w-12 h-15 rounded-lg overflow-hidden border-2 transition-all bg-white ${
             idx === activeModalImgIdx ? 'border-[#0096E6] scale-105 shadow-md' : 'border-slate-200 hover:border-slate-300'
           }" id="thumb-${idx}">
-            <img src="${img}" class="w-full h-full object-cover" onerror="this.src='${product.fallback}'" />
+            <img src="images/${img}" class="w-full h-full object-cover" onerror="this.src='${product.fallback}'" />
           </button>
         `;
       });
