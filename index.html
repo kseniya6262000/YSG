@@ -61,7 +61,7 @@
         </div>
         
         <!-- Main Logo text -->
-        <h1 class="text-3xl sm:text-5xl font-black font-serif tracking-tight text-[#0f2942]">
+        <h1 onclick="goToHomeCategories()" class="text-3xl sm:text-5xl font-black font-serif tracking-tight text-[#0f2942] cursor-pointer hover:text-[#0096E6] transition-colors duration-500" title="На главный экран категорий">
           ФАБРИКА ГОЛОВНЫХ УБОРОВ YSG
         </h1>
         
@@ -296,7 +296,7 @@
   </section>
 
   <!-- PRODUCTS SHOWCASE SECTION / НАША ПРОДУКЦИЯ -->
-  <section id="products" class="py-20 sm:py-28 bg-[#F8FAFC] text-slate-900 border-b border-sky-200/60 relative overflow-hidden">
+  <section id="products" class="min-h-screen py-20 sm:py-28 bg-[#F8FAFC] text-slate-900 border-b border-sky-200/60 relative overflow-hidden">
     <div class="absolute top-0 right-0 pointer-events-none opacity-5">
       <svg viewBox="0 0 400 400" class="w-[600px] h-[600px] text-[#0096E6]" fill="currentColor">
         <path d="M0 0h400v400H0z" />
@@ -306,7 +306,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
       
       <!-- Section Header -->
-      <div class="text-center max-w-3xl mx-auto mb-16">
+      <div id="products-intro-header" class="text-center max-w-3xl mx-auto mb-16 transition-all duration-500">
         <span class="bg-sky-100 text-[#0096E6] text-xs font-bold uppercase tracking-[0.25em] px-4.5 py-1.5 rounded-full border border-sky-200 inline-block">
           Эксклюзивный показ
         </span>
@@ -319,15 +319,15 @@
       </div>
 
       <!-- CATEGORY CARDS (main navigation into catalog) -->
-      <div id="category-view" class="mb-24">
+      <div id="category-view" class="mb-24 transition-all duration-500">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8" id="category-grid">
           <!-- Javascript will inject the 4 category cards here -->
         </div>
       </div>
 
       <!-- CATALOG VIEW (products of selected category, loaded from Google Sheet) -->
-      <div id="catalog-view" class="mb-24 hidden">
-        <button onclick="showCategoryView()" class="inline-flex items-center gap-2 text-sm font-bold text-[#0096E6] hover:text-sky-600 transition-colors mb-8">
+      <div id="catalog-view" class="mb-24 hidden min-h-[60vh] transition-all duration-500">
+        <button onclick="showCategoryView()" class="inline-flex items-center gap-2 text-sm font-bold text-[#0096E6] hover:text-sky-600 transition-all duration-500 mb-8">
           <i data-lucide="arrow-left" class="w-4 h-4"></i>
           <span>Назад к категориям</span>
         </button>
@@ -355,7 +355,7 @@
       </div>
 
       <!-- AESTHETICS AUTOMATIC SLIDESHOW -->
-      <div class="mt-28 border-t border-sky-200/50 pt-20">
+      <div id="aesthetics-gallery-block" class="mt-28 border-t border-sky-200/50 pt-20 transition-all duration-500">
         <div class="text-center max-w-3xl mx-auto mb-14">
           <span class="bg-sky-100 text-[#0096E6] text-xs font-bold uppercase tracking-[0.25em] px-4.5 py-1.5 rounded-full border border-sky-200 inline-block">
             Интерактивная галерея
@@ -874,7 +874,7 @@
     const CATALOG_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTcNNSNRAiPhUuv0KPDPZr9QNz-DFbEkYVJ5hCDCLFxAU5CP0vnWKMgwe5fjX3av3ldhP-8LF5CYruS/pub?gid=0&single=true&output=csv';
 
     // WhatsApp number for order requests
-    const WHATSAPP_NUMBER = '79264010186';
+    const WHATSAPP_NUMBER = '79280280176';
 
     // Fallback placeholder for products whose photo failed to load
     const CATALOG_IMG_FALLBACK = 'https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?auto=format&fit=crop&w=800&q=85';
@@ -898,7 +898,7 @@
 
       categoryCards.forEach(cat => {
         html += `
-          <button onclick="openCategory('${cat.name.replace(/'/g, "\\'")}')" class="group relative rounded-3xl overflow-hidden border border-sky-100 shadow-sm hover:shadow-xl transition-all duration-500 aspect-[3/4] bg-slate-900 text-left">
+          <button onclick="openCategory('${cat.name.replace(/'/g, "\\'")}')" class="group relative rounded-3xl overflow-hidden border border-sky-100 shadow-sm hover:shadow-2xl transition-all duration-500 aspect-[3/4] bg-slate-900 text-left transform hover:scale-105 hover:-translate-y-2">
             <img
               src="${cat.image}"
               alt="${cat.name}"
@@ -983,9 +983,13 @@
         name: header.indexOf('name'),
         price: header.indexOf('price'),
         image: header.indexOf('image'),
+        image2: header.indexOf('image 2'),
         description: header.indexOf('description'),
         stock: header.indexOf('stock'),
-        colors: header.indexOf('colors')
+        colors: header.indexOf('colors'),
+        sku: header.indexOf('sku'),
+        material: header.indexOf('material'),
+        size: header.indexOf('size')
       };
 
       const products = [];
@@ -995,9 +999,10 @@
 
         const get = (key) => (idx[key] !== -1 && r[idx[key]] !== undefined) ? r[idx[key]].trim() : '';
 
+        // Colors can be separated by ';' or ',' — support both
         const colorsRaw = get('colors');
         const colors = colorsRaw
-          ? colorsRaw.split(';').map(c => c.trim()).filter(c => c.length > 0)
+          ? colorsRaw.split(/[;,]/).map(c => c.trim()).filter(c => c.length > 0)
           : [];
 
         products.push({
@@ -1006,9 +1011,13 @@
           name: get('name') || 'Без названия',
           price: get('price') || '',
           image: get('image') || '',
+          image2: get('image2') || '',
           description: get('description') || '',
           stock: get('stock') || '',
-          colors: colors
+          colors: colors,
+          sku: get('sku') || '',
+          material: get('material') || '',
+          size: get('size') || ''
         });
       }
       return products;
@@ -1035,7 +1044,7 @@
 
     // --- Build a WhatsApp order link for a given product ---
     function buildWhatsAppLink(product) {
-      const message = `Здравствуйте! Хочу заказать ${product.name} за ${product.price} руб.`;
+      const message = `Здравствуйте! Хочу заказать модель ${product.name}, артикул ${product.sku || '—'}. Сообщите, пожалуйста, о наличии.`;
       const encoded = message.replace(/ /g, '%20');
       return `https://wa.me/${WHATSAPP_NUMBER}?text=${encoded}`;
     }
@@ -1063,34 +1072,56 @@
           ? `<span class="text-[10px] font-bold uppercase tracking-wider text-emerald-600 bg-emerald-50 border border-emerald-100 px-2.5 py-1 rounded-full">В наличии: ${p.stock}</span>`
           : '';
 
+        // Small muted meta line: Артикул / Состав / Размер
+        const metaParts = [];
+        if (p.sku) metaParts.push(`<span><span class="text-slate-400">Артикул:</span> <span class="font-semibold text-slate-500">${p.sku}</span></span>`);
+        if (p.material) metaParts.push(`<span><span class="text-slate-400">Состав:</span> <span class="font-semibold text-slate-500">${p.material}</span></span>`);
+        if (p.size) metaParts.push(`<span><span class="text-slate-400">Размер:</span> <span class="font-semibold text-slate-500">${p.size}</span></span>`);
+        const metaHtml = metaParts.length
+          ? `<div class="flex flex-col gap-0.5 text-[11px] leading-relaxed">${metaParts.join('')}</div>`
+          : '';
+
+        // Second image for the hover crossfade effect (falls back to the main image if absent)
+        const secondImg = p.image2 || p.image;
+
         html += `
           <div class="bg-white rounded-2xl overflow-hidden border border-sky-100 shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col group">
             <div class="relative aspect-[4/5] overflow-hidden bg-slate-100">
               <img
                 src="${p.image}"
                 alt="${p.name}"
-                class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-out opacity-100 group-hover:opacity-0"
+                onerror="handleImageLoadError(this, '${CATALOG_IMG_FALLBACK}')"
+              />
+              <img
+                src="${secondImg}"
+                alt="${p.name}"
+                class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-out opacity-0 group-hover:opacity-100"
                 onerror="handleImageLoadError(this, '${CATALOG_IMG_FALLBACK}')"
               />
             </div>
             <div class="p-5 flex-1 flex flex-col gap-3">
               <div>
-                <h3 class="font-serif font-bold text-[#0f2942] text-base leading-snug line-clamp-2">${p.name}</h3>
+                <div class="flex items-start justify-between gap-2">
+                  <h3 class="font-serif font-bold text-[#0f2942] text-base leading-snug line-clamp-2">${p.name}</h3>
+                  <span class="text-lg font-extrabold text-[#0096E6] whitespace-nowrap">${p.price} ₽</span>
+                </div>
+                ${metaHtml}
                 ${colorsHtml ? `<div class="flex gap-1.5 mt-2.5">${colorsHtml}</div>` : ''}
               </div>
 
               ${p.description ? `<p class="text-xs text-slate-500 font-normal leading-relaxed line-clamp-3">${p.description}</p>` : ''}
 
               <div class="flex items-center justify-between mt-auto pt-3 border-t border-slate-50">
-                <span class="text-lg font-extrabold text-[#0096E6]">${p.price} ₽</span>
                 ${stockBadge}
               </div>
 
-              <a href="${buildWhatsAppLink(p)}" target="_blank" rel="noopener" class="w-full bg-[#25D366] hover:bg-[#1ebe5a] text-white font-bold text-sm py-3 rounded-xl text-center shadow-md transition-all flex items-center justify-center gap-2">
+              <a href="${buildWhatsAppLink(p)}" target="_blank" rel="noopener" class="w-full bg-[#25D366] hover:bg-[#1ebe5a] text-white font-bold text-sm py-3 rounded-xl text-center shadow-md transition-all duration-500 flex items-center justify-center gap-2">
                 <i data-lucide="message-circle" class="w-4 h-4"></i>
                 <span>Заказать в WhatsApp</span>
               </a>
             </div>
+
           </div>
         `;
       });
@@ -1103,7 +1134,9 @@
     async function openCategory(categoryName) {
       activeCategoryName = categoryName;
 
+      document.getElementById('products-intro-header').classList.add('hidden');
       document.getElementById('category-view').classList.add('hidden');
+      document.getElementById('aesthetics-gallery-block').classList.add('hidden');
       document.getElementById('catalog-view').classList.remove('hidden');
       document.getElementById('catalog-category-title').innerText = categoryName;
 
@@ -1126,11 +1159,23 @@
       renderCatalogProducts(filtered);
     }
 
-    // --- Go back to category cards ---
-    function showCategoryView() {
+    // --- Go back to category cards (shared reset logic) ---
+    function resetToCategories() {
       document.getElementById('catalog-view').classList.add('hidden');
       document.getElementById('category-view').classList.remove('hidden');
+      document.getElementById('products-intro-header').classList.remove('hidden');
+      document.getElementById('aesthetics-gallery-block').classList.remove('hidden');
+    }
+
+    function showCategoryView() {
+      resetToCategories();
       document.getElementById('products').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // --- Clicking the YSG logo always resets to the home categories screen ---
+    function goToHomeCategories() {
+      resetToCategories();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
 
