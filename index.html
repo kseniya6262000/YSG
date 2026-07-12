@@ -157,7 +157,7 @@
         <div class="lg:col-span-5 relative">
           <div class="relative w-full max-w-md mx-auto aspect-[4/5] rounded-[2.5rem] overflow-hidden shadow-2xl border-4 border-white group">
             <img 
-              src="IMG_7215.JPG" 
+              src="images/IMG_7215.JPG" 
               alt="Премиальная коллекция YSG"
               class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[1.5s]"
               id="hero-img"
@@ -245,7 +245,7 @@
             <!-- Workshop Image -->
             <img 
               id="workshop-image"
-              src="i-5.webp" 
+              src="images/i-5.webp" 
               alt="Вязальный цех YSG"
               class="w-full h-full object-cover transition-all duration-700 ease-out opacity-85"
               onerror="handleImageLoadError(this, 'https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?auto=format&fit=crop&w=800&q=85')"
@@ -376,7 +376,7 @@
             <div class="w-full h-full relative overflow-hidden bg-slate-950">
               <img 
                 id="aesthetic-slide-img"
-                src="IMG_7213.JPG" 
+                src="images/IMG_7213.JPG" 
                 alt="Эстетика трикотажа YSG"
                 class="w-full h-full object-cover transform scale-100 group-hover:scale-[1.02] transition-all duration-[1000ms] opacity-90"
                 onerror="handleImageLoadError(this, 'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&w=1200&q=85')"
@@ -795,6 +795,11 @@
       }
     }
 
+    // Every local (non-CSV) image file lives in the /images folder
+    function localImg(filename) {
+      return `images/${filename}`;
+    }
+
     // --- KNITTING WORKSHOP IMAGES & CONTROLS ---
     const workshopImages = [
       {
@@ -826,7 +831,7 @@
       const dotsEl = document.getElementById('workshop-dots');
 
       const active = workshopImages[activeWorkshopIdx];
-      imgEl.src = active.name;
+      imgEl.src = localImg(active.name);
       // Setup fallbacks
       imgEl.onerror = function() {
         handleImageLoadError(this, active.fallback);
@@ -911,7 +916,7 @@
         html += `
           <button onclick="openCategory('${cat.name.replace(/'/g, "\\'")}')" class="group relative rounded-3xl overflow-hidden border border-sky-100 shadow-sm hover:shadow-2xl transition-all duration-500 aspect-[3/4] bg-slate-900 text-left transform hover:scale-105 hover:-translate-y-2">
             <img
-              src="${cat.image}"
+              src="${localImg(cat.image)}"
               alt="${cat.name}"
               class="w-full h-full object-cover opacity-85 group-hover:opacity-95 group-hover:scale-105 transition-all duration-700 ease-out"
               onerror="handleImageLoadError(this, '${CATALOG_IMG_FALLBACK}')"
@@ -1252,7 +1257,7 @@
       const dotsEl = document.getElementById('aesthetic-dots');
 
       const slide = aestheticImages[activeAestheticIdx];
-      imgEl.src = slide.name;
+      imgEl.src = localImg(slide.name);
       imgEl.onerror = function() {
         handleImageLoadError(this, slide.fallback);
       };
@@ -1332,7 +1337,7 @@
       const lTitle = document.getElementById('lightbox-title');
       const lDesc = document.getElementById('lightbox-desc');
 
-      lImg.src = slide.name;
+      lImg.src = localImg(slide.name);
       lImg.onerror = function() {
         handleImageLoadError(this, slide.fallback);
       };
