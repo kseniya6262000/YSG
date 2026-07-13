@@ -1395,17 +1395,27 @@
         });
       });
     });
-  </script>
-<!-- Код чат-бота n8n -->
-<script src="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js" type="module"></script>
 <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
 <script type="module">
     import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
 
     createChat({
-        webhookUrl: 'https://ysg-fabric.app.n8n.cloud/webhook/c9c14c66-6a2d-41c7-a9e0-f829f8f456c1/chat'
+        webhookUrl: 'https://ysg-fabric.app.n8n.cloud/webhook/c9c14c66-6a2d-41c7-a9e0-f829f8f456c1/chat',
+        title: 'YSG Ассистент',
+        subtitle: 'Мы на связи и готовы помочь 24/7',
+        showWelcomeScreen: true,
+        i18n: {
+            en: {
+                title: 'YSG Ассистент',
+                subtitle: 'Мы на связи и готовы помочь 24/7',
+                placeholder: 'Введите ваш вопрос...',
+                getStarted: 'Начать чат',
+                inputPlaceholder: 'Напишите сообщение...',
+                sendButtonTooltip: 'Отправить сообщение'
+            }
+        }
     });
 </script>
-<!-- Конец кода чат-бота -->
 </body>
 </html>
