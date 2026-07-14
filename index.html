@@ -199,7 +199,7 @@
         <!-- Left Content -->
         <div class="lg:col-span-7 space-y-8 text-left">
           <div>
-            <span class="bg-sky-100 text-[#0096E6] text-xs font-bold uppercase tracking-[0.25em] px-4.5 py-1.5 rounded-full border border-sky-200">
+            <span class="bg-sky-100 text-[#0096E6] text-xs font-bold uppercase tracking-[0.2em] px-7 py-2.5 rounded-full border border-sky-200 leading-none">
               Наследие и технологии
             </span>
             <h2 class="text-3xl sm:text-5xl font-extrabold font-serif text-[#0f2942] tracking-tight mt-4">
@@ -296,7 +296,7 @@
   </section>
 
   <!-- PRODUCTS SHOWCASE SECTION / НАША ПРОДУКЦИЯ -->
-  <section id="products" class="min-h-screen py-20 sm:py-28 bg-[#F8FAFC] text-slate-900 border-b border-sky-200/60 relative overflow-hidden">
+  <section id="products" class="min-h-screen py-20 sm:py-28 bg-gradient-to-b from-[#F1F6FB] via-[#EEF5FB] to-[#F1F6FB] text-slate-900 border-b border-sky-200/60 relative overflow-hidden">
     <div class="absolute top-0 right-0 pointer-events-none opacity-5">
       <svg viewBox="0 0 400 400" class="w-[600px] h-[600px] text-[#0096E6]" fill="currentColor">
         <path d="M0 0h400v400H0z" />
@@ -307,7 +307,7 @@
       
       <!-- Section Header -->
       <div id="products-intro-header" class="text-center max-w-3xl mx-auto mb-16 transition-all duration-500">
-        <span class="bg-sky-100 text-[#0096E6] text-xs font-bold uppercase tracking-[0.25em] px-4.5 py-1.5 rounded-full border border-sky-200 inline-block">
+        <span class="bg-sky-100 text-[#0096E6] text-xs font-bold uppercase tracking-[0.2em] px-7 py-2.5 rounded-full border border-sky-200 leading-none inline-block">
           Эксклюзивный показ
         </span>
         <h2 class="text-3xl sm:text-5xl font-extrabold font-serif text-[#0f2942] tracking-tight mt-4">
@@ -357,7 +357,7 @@
       <!-- AESTHETICS AUTOMATIC SLIDESHOW -->
       <div id="aesthetics-gallery-block" class="mt-28 border-t border-sky-200/50 pt-20 transition-all duration-500">
         <div class="text-center max-w-3xl mx-auto mb-14">
-          <span class="bg-sky-100 text-[#0096E6] text-xs font-bold uppercase tracking-[0.25em] px-4.5 py-1.5 rounded-full border border-sky-200 inline-block">
+          <span class="bg-sky-100 text-[#0096E6] text-xs font-bold uppercase tracking-[0.2em] px-7 py-2.5 rounded-full border border-sky-200 leading-none inline-block">
             Интерактивная галерея
           </span>
           <h2 class="text-3xl sm:text-5xl font-extrabold font-serif text-[#0f2942] tracking-tight mt-4">
@@ -444,7 +444,7 @@
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
       <div class="text-center max-w-3xl mx-auto mb-20">
-        <span class="bg-sky-100 text-[#0096E6] text-xs font-bold uppercase tracking-[0.25em] px-4.5 py-1.5 rounded-full border border-sky-200">
+        <span class="bg-sky-100 text-[#0096E6] text-xs font-bold uppercase tracking-[0.2em] px-7 py-2.5 rounded-full border border-sky-200 leading-none">
           Репутация фабрики
         </span>
         <h2 class="text-3xl sm:text-5xl font-extrabold font-serif text-[#0f2942] tracking-tight mt-4">
@@ -561,7 +561,7 @@
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
       <div class="text-center max-w-3xl mx-auto mb-20">
-        <span class="bg-sky-100 text-[#0096E6] text-xs font-bold uppercase tracking-[0.25em] px-4.5 py-1.5 rounded-full border border-sky-200">
+        <span class="bg-sky-100 text-[#0096E6] text-xs font-bold uppercase tracking-[0.2em] px-7 py-2.5 rounded-full border border-sky-200 leading-none">
           Прямые контакты производителя
         </span>
         <h2 class="text-3xl sm:text-5xl font-extrabold font-serif text-[#0f2942] tracking-tight mt-4">
@@ -658,7 +658,7 @@
         <!-- Right Block: Price List Form -->
         <div class="lg:col-span-5 bg-[#0f2942] text-white p-8 sm:p-10 rounded-3xl shadow-2xl flex flex-col justify-between relative border border-sky-400/30">
           <div>
-            <span class="bg-sky-500/20 text-sky-300 text-xs font-bold uppercase tracking-widest px-3.5 py-1.5 rounded-full border border-sky-400/40">
+            <span class="bg-sky-500/20 text-sky-300 text-xs font-bold uppercase tracking-[0.2em] px-7 py-2.5 rounded-full border border-sky-400/40 leading-none">
               Запрос оптового прайс-листа
             </span>
             <h3 class="text-2xl sm:text-3xl font-serif font-bold mt-5 text-white">
@@ -1395,6 +1395,58 @@
         });
       });
     });
+  </script>  <!-- ====================================================== -->
+  <!-- ============ ЧАТ-БОТ n8n (@n8n/chat) ================== -->
+  <!-- ====================================================== -->
+  <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+  <style>
+    /* Фирменные цвета и позиция чата YSG — нижний правый угол */
+    :root {
+      --chat--color-primary: #0096E6;
+      --chat--color-primary-shade-50: #0087cf;
+      --chat--color-primary-shade-100: #0079b8;
+      --chat--color-secondary: #0f2942;
+      --chat--toggle--background: #0096E6;
+      --chat--toggle--hover--background: #0087cf;
+      --chat--toggle--active--background: #0079b8;
+      --chat--toggle--size: 62px;
+      --chat--window--width: 400px;
+      --chat--window--height: 620px;
+      --chat--window--bottom: 24px;
+      --chat--window--right: 24px;
+      --chat--border-radius: 20px;
+      --chat--message--bot--background: #F1F6FB;
+      --chat--message--user--background: #0096E6;
+      --chat--message--user--color: #ffffff;
+      --chat--font-family: 'Inter', sans-serif;
+    }
+  </style>
+  <script type="module">
+    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+    createChat({
+      webhookUrl: 'ВСТАВЬТЕ_ВАШ_WEBHOOK_URL_СЮДА', // <-- ВСТАВЬ WEBHOOK URL ЗДЕСЬ
+      mode: 'window',
+      showWelcomeScreen: false,
+      defaultLanguage: 'ru',
+      loadPreviousSession: true,
+      chatInputKey: 'chatInput',
+      chatSessionKey: 'sessionId',
+      initialMessages: [
+        'Здравствуйте! На связи ассистент YSG! Помогу Вам в подборе головных уборов и аксессуаров, расскажу о ценах и наличии на складе. С чего начнем?'
+      ],
+      i18n: {
+        ru: {
+          title: 'Ассистент YSG',
+          subtitle: 'Мы онлайн и с радостью поможем с выбором',
+          footer: '',
+          getStarted: 'Начать диалог',
+          inputPlaceholder: 'Напишите ваш вопрос...',
+          closeButtonTooltip: 'Закрыть чат'
+        }
+      }
+    });
   </script>
+
 </body>
 </html>
