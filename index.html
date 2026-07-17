@@ -34,9 +34,40 @@
   <style>
     body {
       font-family: 'Inter', sans-serif;
+      /* Защита от горизонтального скролла на мобильных, если какой-то
+         элемент случайно окажется шире экрана */
+      overflow-x: hidden;
     }
     .font-serif {
       font-family: 'Playfair Display', serif;
+    }
+
+    /* ============================================================
+       ЕДИНЫЙ КЛАСС ДЛЯ КРУГЛЫХ "ПЛАШЕК" (pill-badge)
+       Исправляет визуальный баг: раньше текст внутри плашек
+       ("Итальянская пряжа...", "Наследие и технологии" и т.д.)
+       был прижат к скруглённым краям. Теперь у всех плашек
+       единый, увеличенный, "дышащий" padding, а на очень узких
+       экранах текст может аккуратно перенестись на 2 строки,
+       не выходя за пределы экрана.
+       ============================================================ */
+    .pill-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.7rem 1.75rem;
+      border-radius: 9999px;
+      line-height: 1.35;
+      white-space: normal;
+      word-break: break-word;
+      max-width: 100%;
+    }
+    @media (max-width: 480px) {
+      .pill-badge {
+        padding: 0.6rem 1.25rem;
+        font-size: 0.72rem;
+      }
     }
   </style>
 <script src="/_aistudio-iframe.js"></script></head>
@@ -100,8 +131,8 @@
         
         <!-- Left text content -->
         <div class="lg:col-span-7 space-y-8 text-center lg:text-left">
-          <div class="inline-flex items-center gap-2.5 bg-white border border-sky-300 text-[#0096E6] px-4.5 py-2 rounded-full text-xs sm:text-sm font-bold tracking-wide shadow-sm">
-            <i data-lucide="sparkles" class="w-4 h-4 text-[#0096E6]"></i>
+          <div class="pill-badge bg-white border border-sky-300 text-[#0096E6] text-xs sm:text-sm font-bold tracking-wide shadow-sm max-w-[94%] sm:max-w-none mx-auto lg:mx-0 text-center">
+            <i data-lucide="sparkles" class="w-4 h-4 text-[#0096E6] flex-shrink-0"></i>
             <span>Итальянская пряжа • Передовые технологии Stoll</span>
           </div>
 
@@ -166,7 +197,7 @@
             
             <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent flex items-end p-8">
               <div class="text-white">
-                <span class="bg-[#0096E6] text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full border border-white/10">
+                <span class="bg-[#0096E6] text-white text-[10px] font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border border-white/10 inline-block">
                   Премиум качество
                 </span>
                 <h3 class="text-xl font-serif font-bold text-white mt-3">
@@ -199,7 +230,7 @@
         <!-- Left Content -->
         <div class="lg:col-span-7 space-y-8 text-left">
           <div>
-            <span class="bg-sky-100 text-[#0096E6] text-xs font-bold uppercase tracking-[0.2em] px-7 py-2.5 rounded-full border border-sky-200 leading-none">
+            <span class="pill-badge bg-sky-100 text-[#0096E6] text-xs font-bold uppercase tracking-[0.15em] sm:tracking-[0.2em] border border-sky-200">
               Наследие и технологии
             </span>
             <h2 class="text-3xl sm:text-5xl font-extrabold font-serif text-[#0f2942] tracking-tight mt-4">
@@ -218,22 +249,22 @@
 
           <!-- Feature Bullets -->
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div class="flex gap-3 bg-white p-4.5 rounded-2xl border border-sky-100 shadow-sm">
-              <div class="w-8 h-8 rounded-xl bg-sky-100 flex items-center justify-center text-[#0096E6] flex-shrink-0">
+            <div class="flex gap-4 bg-white p-5 sm:p-6 rounded-2xl border border-sky-100 shadow-sm">
+              <div class="w-9 h-9 rounded-xl bg-sky-100 flex items-center justify-center text-[#0096E6] flex-shrink-0">
                 <i data-lucide="check" class="w-4 h-4"></i>
               </div>
-              <div>
+              <div class="min-w-0">
                 <h4 class="font-bold text-[#0f2942] text-sm">Итальянская пряжа</h4>
-                <p class="text-xs text-slate-500 mt-0.5">Меринос, альпака суперфайн, ангора, нежный кашемир.</p>
+                <p class="text-xs text-slate-500 mt-1 leading-relaxed break-words">Меринос, альпака суперфайн, ангора, нежный кашемир.</p>
               </div>
             </div>
-            <div class="flex gap-3 bg-white p-4.5 rounded-2xl border border-sky-100 shadow-sm">
-              <div class="w-8 h-8 rounded-xl bg-sky-100 flex items-center justify-center text-[#0096E6] flex-shrink-0">
+            <div class="flex gap-4 bg-white p-5 sm:p-6 rounded-2xl border border-sky-100 shadow-sm">
+              <div class="w-9 h-9 rounded-xl bg-sky-100 flex items-center justify-center text-[#0096E6] flex-shrink-0">
                 <i data-lucide="compass" class="w-4 h-4"></i>
               </div>
-              <div>
+              <div class="min-w-0">
                 <h4 class="font-bold text-[#0f2942] text-sm">Технологии Stoll</h4>
-                <p class="text-xs text-slate-500 mt-0.5">Немецкие программируемые вязальные машины для идеальной структуры полотна.</p>
+                <p class="text-xs text-slate-500 mt-1 leading-relaxed break-words">Немецкие программируемые вязальные машины для идеальной структуры полотна.</p>
               </div>
             </div>
           </div>
@@ -296,7 +327,7 @@
   </section>
 
   <!-- PRODUCTS SHOWCASE SECTION / НАША ПРОДУКЦИЯ -->
-  <section id="products" class="min-h-screen py-20 sm:py-28 bg-gradient-to-b from-[#F1F6FB] via-[#EEF5FB] to-[#F1F6FB] text-slate-900 border-b border-sky-200/60 relative overflow-hidden">
+  <section id="products" class="min-h-screen py-20 sm:py-28 bg-[#F8FAFC] text-slate-900 border-b border-sky-200/60 relative overflow-hidden">
     <div class="absolute top-0 right-0 pointer-events-none opacity-5">
       <svg viewBox="0 0 400 400" class="w-[600px] h-[600px] text-[#0096E6]" fill="currentColor">
         <path d="M0 0h400v400H0z" />
@@ -307,7 +338,7 @@
       
       <!-- Section Header -->
       <div id="products-intro-header" class="text-center max-w-3xl mx-auto mb-16 transition-all duration-500">
-        <span class="bg-sky-100 text-[#0096E6] text-xs font-bold uppercase tracking-[0.2em] px-7 py-2.5 rounded-full border border-sky-200 leading-none inline-block">
+        <span class="pill-badge bg-sky-100 text-[#0096E6] text-xs font-bold uppercase tracking-[0.15em] sm:tracking-[0.2em] border border-sky-200 inline-block">
           Эксклюзивный показ
         </span>
         <h2 class="text-3xl sm:text-5xl font-extrabold font-serif text-[#0f2942] tracking-tight mt-4">
@@ -357,7 +388,7 @@
       <!-- AESTHETICS AUTOMATIC SLIDESHOW -->
       <div id="aesthetics-gallery-block" class="mt-28 border-t border-sky-200/50 pt-20 transition-all duration-500">
         <div class="text-center max-w-3xl mx-auto mb-14">
-          <span class="bg-sky-100 text-[#0096E6] text-xs font-bold uppercase tracking-[0.2em] px-7 py-2.5 rounded-full border border-sky-200 leading-none inline-block">
+          <span class="pill-badge bg-sky-100 text-[#0096E6] text-xs font-bold uppercase tracking-[0.15em] sm:tracking-[0.2em] border border-sky-200 inline-block">
             Интерактивная галерея
           </span>
           <h2 class="text-3xl sm:text-5xl font-extrabold font-serif text-[#0f2942] tracking-tight mt-4">
@@ -444,7 +475,7 @@
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
       <div class="text-center max-w-3xl mx-auto mb-20">
-        <span class="bg-sky-100 text-[#0096E6] text-xs font-bold uppercase tracking-[0.2em] px-7 py-2.5 rounded-full border border-sky-200 leading-none">
+        <span class="pill-badge bg-sky-100 text-[#0096E6] text-xs font-bold uppercase tracking-[0.15em] sm:tracking-[0.2em] border border-sky-200">
           Репутация фабрики
         </span>
         <h2 class="text-3xl sm:text-5xl font-extrabold font-serif text-[#0f2942] tracking-tight mt-4">
@@ -561,7 +592,7 @@
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
       <div class="text-center max-w-3xl mx-auto mb-20">
-        <span class="bg-sky-100 text-[#0096E6] text-xs font-bold uppercase tracking-[0.2em] px-7 py-2.5 rounded-full border border-sky-200 leading-none">
+        <span class="pill-badge bg-sky-100 text-[#0096E6] text-xs font-bold uppercase tracking-[0.15em] sm:tracking-[0.2em] border border-sky-200">
           Прямые контакты производителя
         </span>
         <h2 class="text-3xl sm:text-5xl font-extrabold font-serif text-[#0f2942] tracking-tight mt-4">
@@ -658,7 +689,7 @@
         <!-- Right Block: Price List Form -->
         <div class="lg:col-span-5 bg-[#0f2942] text-white p-8 sm:p-10 rounded-3xl shadow-2xl flex flex-col justify-between relative border border-sky-400/30">
           <div>
-            <span class="bg-sky-500/20 text-sky-300 text-xs font-bold uppercase tracking-[0.2em] px-7 py-2.5 rounded-full border border-sky-400/40 leading-none">
+            <span class="pill-badge bg-sky-500/20 text-sky-300 text-xs font-bold uppercase tracking-[0.15em] sm:tracking-[0.2em] border border-sky-400/40">
               Запрос оптового прайс-листа
             </span>
             <h3 class="text-2xl sm:text-3xl font-serif font-bold mt-5 text-white">
@@ -1395,17 +1426,25 @@
         });
       });
     });
-  </script>  <!-- ====================================================== -->
-  <!-- ============ ЧАТ-БОТ n8n (@n8n/chat) ================== -->
-  <!-- ====================================================== -->
+  </script>  <!-- ============================================================
+       ЧАТ-БОТ n8n (виджет @n8n/chat)
+       Подключается к вашему AI-агенту в n8n через webhookUrl.
+       Приветственное сообщение и оформление уже настроены
+       под стиль сайта — трогать их не нужно, только вставить
+       свою ссылку из n8n ниже.
+       ============================================================ -->
   <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
   <style>
-    /* Фирменные цвета и позиция чата YSG — нижний правый угол */
+    /* Оформление чата в фирменных синих/голубых тонах сайта YSG */
     :root {
       --chat--color-primary: #0096E6;
       --chat--color-primary-shade-50: #0087cf;
       --chat--color-primary-shade-100: #0079b8;
       --chat--color-secondary: #0f2942;
+      --chat--color-white: #ffffff;
+      --chat--color-light: #F1F6FB;
+      --chat--color-light-shade-50: #E4EEF7;
+      --chat--color-dark: #0f2942;
       --chat--toggle--background: #0096E6;
       --chat--toggle--hover--background: #0087cf;
       --chat--toggle--active--background: #0079b8;
@@ -1416,16 +1455,28 @@
       --chat--window--right: 24px;
       --chat--border-radius: 20px;
       --chat--message--bot--background: #F1F6FB;
+      --chat--message--bot--color: #0f2942;
       --chat--message--user--background: #0096E6;
       --chat--message--user--color: #ffffff;
+      --chat--message-line-height: 1.5;
       --chat--font-family: 'Inter', sans-serif;
+    }
+
+    /* На маленьких экранах окно чата не должно вылезать за пределы экрана */
+    @media (max-width: 480px) {
+      :root {
+        --chat--window--width: 94vw;
+        --chat--window--height: 80vh;
+        --chat--window--bottom: 12px;
+        --chat--window--right: 12px;
+      }
     }
   </style>
   <script type="module">
     import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
 
     createChat({
-      webhookUrl: 'https://ysg-fabric.app.n8n.cloud/webhook/ysg-chat-webhook-0001/chat', // <-- ВСТАВЬ WEBHOOK URL ЗДЕСЬ
+      webhookUrl: 'ВАШ_WEBHOOK_URL_ИЗ_N8N', // <-- ВСТАВЬ WEBHOOK URL ЗДЕСЬ (адрес продакшн-вебхука ноды "When chat message received")
       mode: 'window',
       showWelcomeScreen: false,
       defaultLanguage: 'ru',
